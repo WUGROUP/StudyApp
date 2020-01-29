@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestManagerService } from 'src/app/services/test-manager-service';
 import { SummaryTestInfoDto } from 'src/app/dto/summary-test-info';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfigManager } from 'src/app/utils/config-manager';
 
 @Component({
   selector: 'app-todo-test',
@@ -19,6 +20,17 @@ export class TodoTestComponent implements OnInit {
   ngOnInit() {
     this.testManagerService.getAllTodoTestInfos<SummaryTestInfoDto[]>().subscribe(
       (rows) => {
+        rows.forEach(
+          (item: SummaryTestInfoDto) => {
+            item.costTime = 0;
+            item.mainInfos.forEach((mainInfo) => {
+              item.costTime = item.costTime +
+                (mainInfo.type === 1 ?
+                  mainInfo.contentsCount * ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey)
+                  : mainInfo.contentsCount * ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+            });
+          }
+        );
         this.todoListInfos = new MatTableDataSource<SummaryTestInfoDto>(rows);
       },
       (error) => alert(error)

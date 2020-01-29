@@ -7,6 +7,10 @@ export class ConfigManager {
 
     public static passKey = 'ManagerPassword';
 
+    public static wordPerTimeKey = 'WordPerTime';
+
+    public static sentencePerTimeKey = 'SentencePerTime';
+
     public static uslKey = 'ApiUrl';
 
     private static readonly configFilePath = 'assets/configs/SystemConfig.json';
