@@ -17,4 +17,10 @@ export class AppUtils {
         responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
 
+    public static calScore(okWordCount: number, allWordCount: number, okSentenceCount: number, allSentenceCount: number) {
+        const wcRatio = 5;
+        const score = Math.round((100 / (allWordCount + allSentenceCount * wcRatio)) * (okWordCount + okSentenceCount * wcRatio));
+        return score;
+    }
+
 }

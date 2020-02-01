@@ -1,6 +1,7 @@
 import { BaseService } from './base-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TestInfo } from '../dto/test-info';
 
 export class TestManagerService extends BaseService {
     constructor(public httpClient: HttpClient) {
@@ -18,6 +19,16 @@ export class TestManagerService extends BaseService {
 
     public getAllTodoTestInfos<T>() {
         return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=TODO_LIST`, null,
+            { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    }
+
+    public getAllTestInfosById<T>(id: { summaryId: number }) {
+        return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=TEST_LIST`, id,
+            { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    }
+
+    public saveTestRes(testRes: { score: number; res: TestInfo[] }) {
+        return this.httpClient.post(this.ApiUrl + `/TestManager?ACTION=TEST_LIST`, testRes,
             { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
     }
 }

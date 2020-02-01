@@ -7,6 +7,7 @@ import { WordCourseComponent } from './components/word-course/word-course.compon
 import { SentenceCourseComponent } from './components/sentence-course/sentence-course.component';
 import { TestManagerComponent } from './components/test-manager/test-manager.component';
 import { CreateTestComponent } from './components/create-test/create-test.component';
+import { TestComponent } from './components/test/test.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'WordCourse', component: WordCourseComponent },
   { path: 'SentenceCourse', component: SentenceCourseComponent },
   { path: 'TestManager', component: TestManagerComponent },
-  { path: 'CreateTest', component: CreateTestComponent }
+  { path: 'CreateTest', component: CreateTestComponent },
+  { path: 'Test', component: TestComponent }
 ];
 
 @NgModule({

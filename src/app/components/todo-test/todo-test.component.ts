@@ -3,6 +3,7 @@ import { TestManagerService } from 'src/app/services/test-manager-service';
 import { SummaryTestInfoDto } from 'src/app/dto/summary-test-info';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfigManager } from 'src/app/utils/config-manager';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo-test',
@@ -12,10 +13,10 @@ import { ConfigManager } from 'src/app/utils/config-manager';
 })
 export class TodoTestComponent implements OnInit {
 
-  public displayedColumns: string[] = ['title', 'mainInfos', 'costTime', 'action'];
+  public displayedColumns: string[] = ['title', 'mainInfosTitle', 'mainInfosContentsCount', 'costTime', 'action'];
   public todoListInfos: MatTableDataSource<SummaryTestInfoDto> = null;
 
-  constructor(private testManagerService: TestManagerService) { }
+  constructor(private router: Router, private testManagerService: TestManagerService) { }
 
   ngOnInit() {
     this.testManagerService.getAllTodoTestInfos<SummaryTestInfoDto[]>().subscribe(
@@ -37,5 +38,7 @@ export class TodoTestComponent implements OnInit {
     );
   }
 
-
+  startTest(todoInfo: SummaryTestInfoDto) {
+    this.router.navigate(['Test'], { queryParams: { id: todoInfo.id, costTime: todoInfo.costTime, title: todoInfo.title } });
+  }
 }

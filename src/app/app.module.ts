@@ -20,6 +20,8 @@ import { CreateTestComponent } from './components/create-test/create-test.compon
 import { LoginDialogComponent } from './components/login-dialog/login-dialog.component';
 import { CreateTitleDialogComponent } from './components/create-title-dialog/create-title-dialog.component';
 import { TodoTestComponent } from './components/todo-test/todo-test.component';
+import { TestComponent } from './components/test/test.component';
+import { ScoreDialogComponent } from './components/score-dialog/score-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { TodoTestComponent } from './components/todo-test/todo-test.component';
     CreateTestComponent,
     LoginDialogComponent,
     CreateTitleDialogComponent,
-    TodoTestComponent
+    TodoTestComponent,
+    TestComponent,
+    ScoreDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,8 @@ import { TodoTestComponent } from './components/todo-test/todo-test.component';
     LoginDialogComponent,
     TextInfoDialog,
     ComfirmDialogComponent,
-    CreateTitleDialogComponent
+    CreateTitleDialogComponent,
+    ScoreDialogComponent
   ],
   bootstrap: [AppComponent]
 })
