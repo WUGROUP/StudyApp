@@ -53,7 +53,8 @@ export class HeaderComponent extends BaseComponent implements OnInit {
     const dialogRef = this.dialog.open(
       LoginDialogComponent,
       {
-        width: '300px'
+        width: '300px',
+        disableClose: true
       }
     );
 

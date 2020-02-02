@@ -86,6 +86,7 @@ export class CreateTestComponent implements OnInit {
       // tslint:disable-next-line: no-use-before-declare
       const dialogRef = this.dialog.open(ComfirmDialogComponent, {
         width: '600px',
+        disableClose: true,
         data: { message: `選択された行(${this.selection.selected.length}行)で新しい試験を作成してもよろしいでしょうか？` }
       });
       dialogRef.afterClosed().subscribe(result => {
@@ -99,6 +100,7 @@ export class CreateTestComponent implements OnInit {
   private inputTitle() {
     const dialogRef = this.dialog.open(CreateTitleDialogComponent, {
       width: '400px',
+      disableClose: true,
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

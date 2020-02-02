@@ -55,6 +55,7 @@ export class TextboxinfoComponent extends BaseComponent implements OnInit {
     // tslint:disable-next-line: no-use-before-declare
     const dialogRef = this.dialog.open(TextInfoDialog, {
       width: '600px',
+      disableClose: true,
       data: { flag: 'N' }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -72,6 +73,7 @@ export class TextboxinfoComponent extends BaseComponent implements OnInit {
       // tslint:disable-next-line: no-use-before-declare
       const dialogRef = this.dialog.open(ComfirmDialogComponent, {
         width: '600px',
+        disableClose: true,
         data: { message: '選択された行を削除してもよろしいでしょうか？' }
       });
       dialogRef.afterClosed().subscribe(result => {
@@ -102,6 +104,7 @@ export class TextboxinfoComponent extends BaseComponent implements OnInit {
       // tslint:disable-next-line: no-use-before-declare
       const dialogRef = this.dialog.open(TextInfoDialog, {
         width: '600px',
+        disableClose: true,
         data: { flag: 'U', textBoxInfo: this.selection.selected[0] }
       });
       dialogRef.afterClosed().subscribe(result => {
