@@ -93,6 +93,7 @@ export class TestComponent implements OnInit {
     if (this.currentIndex !== -1 && this.currentIndex < this.allContentCount - 1) {
       this.check(true);
     } else if (this.currentIndex === this.allContentCount - 1) {
+      this.check(true);
       clearInterval(this.interval);
       this.isTesting = false;
       const res = AppUtils.calScore(this.okWordCount, this.allWordCount, this.okSentenceCount, this.allSentenceCount);
@@ -114,9 +115,10 @@ export class TestComponent implements OnInit {
   }
 
   public check(inCount?: boolean) {
+
     if (isNullOrUndefined(this.currentTest.answer)) {
       this.currentTest.res = 1;
-    } else if (this.currentTest.content.toLowerCase() === this.currentTest.answer.toLowerCase()) {
+    } else if (this.isAnswerOk(this.currentTest.answer, this.currentTest.content)) {
       if (inCount) {
         if (this.currentTest.type === 1) {
           this.okWordCount = this.okWordCount + 1;
@@ -188,5 +190,17 @@ export class TestComponent implements OnInit {
       },
       error => alert(error)
     );
+  }
+
+  private isAnswerOk(answer: string, content: string) {
+    const tmp1 = answer.toLowerCase().replace(/ /g, '').replace(/　/g, '');
+    const tmp2 = content.toLowerCase().replace(/ /g, '').replace(/　/g, '');
+    console.log(`answer => ${tmp1}`);
+    console.log(`content => ${tmp2}`);
+    if (tmp1 === tmp2) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
