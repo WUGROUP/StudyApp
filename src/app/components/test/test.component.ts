@@ -182,7 +182,7 @@ export class TestComponent implements OnInit {
   }
 
   private saveTestRes(res: number) {
-    this.testManagerService.saveTestRes({ score: res, res: this.testInfo }).subscribe(
+    this.testManagerService.saveTestRes({ score: res, costTime: this.costedTime, res: this.testInfo }).subscribe(
       () => {
         this.finish(res);
       },

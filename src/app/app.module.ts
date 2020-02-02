@@ -22,6 +22,7 @@ import { CreateTitleDialogComponent } from './components/create-title-dialog/cre
 import { TodoTestComponent } from './components/todo-test/todo-test.component';
 import { TestComponent } from './components/test/test.component';
 import { ScoreDialogComponent } from './components/score-dialog/score-dialog.component';
+import { TestResultComponent } from './components/test-result/test-result.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ScoreDialogComponent } from './components/score-dialog/score-dialog.com
     CreateTitleDialogComponent,
     TodoTestComponent,
     TestComponent,
-    ScoreDialogComponent
+    ScoreDialogComponent,
+    TestResultComponent
   ],
   imports: [
     BrowserModule,

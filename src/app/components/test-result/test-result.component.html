@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="todoListInfos">
+<table mat-table [dataSource]="testedListInfos">
     <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> 試験名 </th>
         <td mat-cell *matCellDef="let element"> {{element.title}} </td>
@@ -29,11 +29,25 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="costedTime">
+        <th mat-header-cell *matHeaderCellDef> ラスト試験時間 </th>
+        <td mat-cell *matCellDef="let element" style="text-align: center;">
+            {{element.costedTime * 1000 | date:'H時mm分ss秒':'UTC'}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> ラスト試験得点 </th>
+        <td mat-cell *matCellDef=" let element" style="text-align: center;">
+            {{element.score}}
+        </td>
+    </ng-container>
+
     <!-- Action Column -->
     <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef> アクション </th>
         <td mat-cell *matCellDef="let element">
-            <button mat-raised-button color="primary" (click)="startTest(element)">試験開始</button>
+            <button mat-raised-button color="primary" (click)="startTest(element)">も一回チャレンジ</button>
         </td>
     </ng-container>
 

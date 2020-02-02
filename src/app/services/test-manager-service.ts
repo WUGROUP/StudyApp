@@ -27,8 +27,13 @@ export class TestManagerService extends BaseService {
             { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
     }
 
-    public saveTestRes(testRes: { score: number; res: TestInfo[] }) {
-        return this.httpClient.post(this.ApiUrl + `/TestManager?ACTION=TEST_LIST`, testRes,
+    public saveTestRes(testRes: { score: number; costTime: number; res: TestInfo[] }) {
+        return this.httpClient.post(this.ApiUrl + `/TestManager?ACTION=SAVE_TEST`, testRes,
+            { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    }
+
+    public getAllTestedInfos<T>() {
+        return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=TESTED_LIST`, null,
             { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
     }
 }
