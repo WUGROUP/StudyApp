@@ -31,7 +31,7 @@ export class TestComponent implements OnInit {
   public allSentenceCount = 0;
   private testInfo: TestInfo[] = null;
   private interval: any = null;
-  private currentTest: TestInfo = null;
+  public currentTest: TestInfo = null;
   public currentIndex = -1;
   public allContentCount = -1;
   public isTesting = true;
