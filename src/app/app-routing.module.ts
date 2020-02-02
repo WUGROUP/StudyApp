@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'SentenceCourse', component: SentenceCourseComponent },
   { path: 'TestManager', component: TestManagerComponent },
   { path: 'CreateTest', component: CreateTestComponent },
-  { path: 'Test', component: TestComponent }
+  { path: 'Test', component: TestComponent },
+  { path: '**', component: MainPageComponent }
 ];
 
 @NgModule({
