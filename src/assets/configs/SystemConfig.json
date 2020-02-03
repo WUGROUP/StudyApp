@@ -2,5 +2,5 @@
     "ManagerPassword": "0",
     "WordPerTime": "30",
     "SentencePerTime": "60",
-    "ApiUrl": "http://192.168.100.102:3000"
+    "ApiUrl": "http://localhost:3000"
 }

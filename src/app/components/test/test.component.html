@@ -9,7 +9,7 @@
 </div>
 <hr>
 <mat-progress-bar mode="determinate" [value]="processBarValue"></mat-progress-bar>
-<div style="width: 100%; font-size: 150%;" *ngIf="currentTest">
+<div style="width: 100%; font-size: 2vw" *ngIf="currentTest">
     <div>
         意味（日本語）：
         <br>
@@ -24,7 +24,7 @@
     <div>
         回答：
         <input type="text" class="form-control" [value]="currentTest.answer"
-            (input)="currentTest.answer = $event.target.value" style="width: 100%; height: 50px; font-size: 200%;" />
+            (input)="currentTest.answer = $event.target.value" style="width: 100%; font-size: 2vw;" />
     </div>
 </div>
 <hr>
