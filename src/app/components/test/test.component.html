@@ -2,13 +2,14 @@
 <hr>
 <div style="margin-left: 20px;">
     経過時間：{{costedTime * 1000 | date:'H時　mm分　ss秒':'UTC'}}
-    <br>残り時間：{{costTime * 1000 | date:'H時　mm分　ss秒':'UTC'}} / 予定総時間：{{planCostTime * 1000 | date:'H時　mm分　ss秒':'UTC'}}
+    <br><span *ngIf="flag === 0">残り時間：{{costTime * 1000 | date:'H時　mm分　ss秒':'UTC'}} /
+    </span>予定総時間：{{planCostTime * 1000 | date:'H時　mm分　ss秒':'UTC'}}
     <br>単語数　：{{testedWordCount}}/{{allWordCount}}
     <span style="margin-left: 10px;">文数：{{testedSentenceCount}}/{{allSentenceCount}}</span>
     <span style="margin-left: 10px;" *ngIf="checkRes">チェック結果：{{checkRes}}</span>
 </div>
 <hr>
-<mat-progress-bar mode="determinate" [value]="processBarValue"></mat-progress-bar>
+<mat-progress-bar *ngIf="flag === 0" mode="determinate" [value]="processBarValue"></mat-progress-bar>
 <div style="width: 100%; font-size: 2vw" *ngIf="currentTest">
     <div>
         意味（日本語）：

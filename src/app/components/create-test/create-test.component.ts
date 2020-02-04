@@ -9,6 +9,7 @@ import { isNullOrUndefined } from 'util';
 import { MatDialog } from '@angular/material/dialog';
 import { ComfirmDialogComponent } from '../comfirm-dialog/comfirm-dialog.component';
 import { CreateTitleDialogComponent } from '../create-title-dialog/create-title-dialog.component';
+import { stringify } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -102,19 +103,19 @@ export class CreateTestComponent implements OnInit {
       width: '400px',
       disableClose: true,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: { title: string; flg: number }) => {
       if (result) {
-        this.saveTestInfo(result);
+        this.saveTestInfo(result.title, result.flg);
       }
     });
   }
 
-  private saveTestInfo(title: string) {
+  private saveTestInfo(title: string, flg: number) {
     const createTagMainIds = [];
     this.selection.selected.forEach((mainInfo: MainInfo) => {
       createTagMainIds.push(mainInfo.id);
     });
-    this.testManager.saveTestInfo(title, createTagMainIds).subscribe(
+    this.testManager.saveTestInfo(title, flg, createTagMainIds).subscribe(
       () => {
         this.selection.clear();
         alert('保存しました。');

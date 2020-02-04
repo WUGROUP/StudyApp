@@ -41,10 +41,12 @@ export class TestComponent implements OnInit {
   public processBarValue = 0;
   public checkRes = null;
   public planCostTime = 0;
+  public flag = 0;
 
   ngOnInit() {
     this.testId = this.route.snapshot.queryParams.id as number;
     this.title = this.route.snapshot.queryParams.title as string;
+    this.flag = this.route.snapshot.queryParams.flg as number;
     this.getTestInfos();
   }
 
@@ -68,6 +70,9 @@ export class TestComponent implements OnInit {
         this.checkRes = null;
         this.setAllInfo();
         this.next();
+        if (this.flag !== 0) {
+          this.setAllCountTimmer(this.costTime);
+        }
       },
       error => {
         alert(error);
@@ -109,9 +114,11 @@ export class TestComponent implements OnInit {
     } else {
       this.testedSentenceCount = this.testedSentenceCount + 1;
     }
-    this.setTimmer(this.currentTest.type === 1 ?
-      ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey) :
-      ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+    if (this.flag === 0) {
+      this.setTimmer(this.currentTest.type === 1 ?
+        ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey) :
+        ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+    }
   }
 
   public check(inCount?: boolean) {
@@ -135,6 +142,18 @@ export class TestComponent implements OnInit {
     } else {
       this.checkRes = '❌';
     }
+  }
+
+  public setAllCountTimmer(t: number) {
+    let counter = t as number;
+    this.interval = setInterval(() => {
+      if (counter > 0) {
+        counter--;
+        this.costedTime = this.costedTime + 1;
+      } else {
+        clearInterval(this.interval);
+      }
+    }, 1000);
   }
 
   public setTimmer(t: number) {

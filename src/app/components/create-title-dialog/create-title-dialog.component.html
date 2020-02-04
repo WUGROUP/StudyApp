@@ -5,6 +5,15 @@
     <mat-form-field style="width: 100%;">
         <input matInput [(ngModel)]="title" cdkFocusInitial>
     </mat-form-field>
+    <p>タイマー設定</p>
+    <mat-select [(ngModel)]="countTImeFlg" required>
+        <mat-option value="0">
+            タイマーを設定する
+        </mat-option>
+        <mat-option value="0">
+            タイマーを設定しない
+        </mat-option>
+    </mat-select>
 </div>
 <hr>
 <div mat-dialog-actions>
