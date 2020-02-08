@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestManagerService } from 'src/app/services/test-manager-service';
 import { TestInfo } from 'src/app/dto/test-info';
@@ -15,7 +15,8 @@ import { ComfirmDialogComponent } from '../comfirm-dialog/comfirm-dialog.compone
   styleUrls: ['./test.component.css'],
   providers: [TestManagerService]
 })
-export class TestComponent implements OnInit {
+export class TestComponent implements OnInit, OnDestroy {
+
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +45,21 @@ export class TestComponent implements OnInit {
   public planCostTime = 0;
   public flag = 0;
   public pauseFlg = false;
-  public buttonName = '一時停止';
+  public buttonName = '一時休憩';
   ngOnInit() {
     this.testId = this.route.snapshot.queryParams.id as number;
     this.title = this.route.snapshot.queryParams.title as string;
     this.flag = Number.parseInt(this.route.snapshot.queryParams.flg, 10);
     this.getTestInfos();
+  }
+
+  pause() {
+    this.pauseFlg = !this.pauseFlg;
+    if (this.pauseFlg) {
+      this.buttonName = '試験再開';
+    } else {
+      this.buttonName = '一時休憩';
+    }
   }
 
 
@@ -242,5 +252,13 @@ export class TestComponent implements OnInit {
         this.router.navigate(['MainPage']);
       }
     });
+  }
+
+
+  ngOnDestroy(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
+      this.interval = null;
+    }
   }
 }

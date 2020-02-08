@@ -7,6 +7,8 @@
     <br>単語数　：{{testedWordCount}}/{{allWordCount}}
     <span style="margin-left: 10px;">文数：{{testedSentenceCount}}/{{allSentenceCount}}</span>
     <span style="margin-left: 10px;" *ngIf="checkRes">チェック結果：{{checkRes}}</span>
+    <br>
+    <button *ngIf="isTesting" mat-raised-button color="primary" (click)="pause()">{{buttonName}}</button>
 </div>
 <hr>
 <mat-progress-bar *ngIf="flag === 0" mode="determinate" [value]="processBarValue"></mat-progress-bar>
@@ -24,11 +26,11 @@
     <hr>
     <div>
         回答：
-        <input type="text" class="form-control" [value]="currentTest.answer"
+        <input [disabled]="pauseFlg" type="text" class="form-control" [value]="currentTest.answer"
             (input)="currentTest.answer = $event.target.value" style="width: 100%; font-size: 2vw;" />
     </div>
 </div>
 <hr>
-<button *ngIf="isTesting" mat-raised-button color="primary" (click)="next()">次へ</button>
-<button *ngIf="isTesting" mat-raised-button color="primary" (click)="check(false)">チェック</button>
+<button *ngIf="isTesting && !pauseFlg" mat-raised-button color="primary" (click)="next()">次へ</button>
+<button *ngIf="isTesting && !pauseFlg" mat-raised-button color="primary" (click)="check(false)">チェック</button>
 <button *ngIf="isTesting" mat-raised-button color="primary" (click)="cancel()">途中で終了</button>
