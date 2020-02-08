@@ -23,4 +23,21 @@ export class AppUtils {
         return score;
     }
 
+    public static toCheckString(checkStr: string) {
+        return Array.from(checkStr).filter((item) => {
+            return item.match(/^[A-Za-z0-9']*$/);
+        }).join('');
+    }
+
+    public static checkIsOK(checkStr: string, answer: string): number {
+        if (this.isNullorUndefined(answer) || this.isNullorUndefined(checkStr)) {
+            return 1;
+        }
+        if (this.toCheckString(checkStr.toLowerCase()) === this.toCheckString(answer.toLowerCase())) {
+            return 0;
+        } else {
+            return 2;
+        }
+    }
+
 }

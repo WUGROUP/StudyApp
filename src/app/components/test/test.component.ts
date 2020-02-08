@@ -137,7 +137,7 @@ export class TestComponent implements OnInit, OnDestroy {
 
     if (isNullOrUndefined(this.currentTest.answer)) {
       this.currentTest.res = 1;
-    } else if (this.isAnswerOk(this.currentTest.answer, this.currentTest.content)) {
+    } else if (AppUtils.checkIsOK(this.currentTest.content, this.currentTest.answer)) {
       if (inCount) {
         if (this.currentTest.type === 1) {
           this.okWordCount = this.okWordCount + 1;
