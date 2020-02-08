@@ -20,9 +20,9 @@ export class HeaderComponent extends BaseComponent implements OnInit {
 
   private interval: any = null;
 
-  private timeLeft = 10;
+  public timeLeft = 10;
 
-  private showCounter = false;
+  public showCounter = false;
 
   ngOnInit() {
     this.headerService.counterChange$.subscribe(

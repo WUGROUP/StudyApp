@@ -7,6 +7,7 @@ import { isNullOrUndefined } from 'util';
 import { AppUtils } from 'src/app/utils/app-utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ScoreDialogComponent } from '../score-dialog/score-dialog.component';
+import { ComfirmDialogComponent } from '../comfirm-dialog/comfirm-dialog.component';
 
 @Component({
   selector: 'app-test',
@@ -31,7 +32,7 @@ export class TestComponent implements OnInit {
   public allSentenceCount = 0;
   private testInfo: TestInfo[] = null;
   private interval: any = null;
-  private currentTest: TestInfo = null;
+  public currentTest: TestInfo = null;
   public currentIndex = -1;
   public allContentCount = -1;
   public isTesting = true;
@@ -41,10 +42,13 @@ export class TestComponent implements OnInit {
   public processBarValue = 0;
   public checkRes = null;
   public planCostTime = 0;
-
+  public flag = 0;
+  public pauseFlg = false;
+  public buttonName = '一時停止';
   ngOnInit() {
     this.testId = this.route.snapshot.queryParams.id as number;
     this.title = this.route.snapshot.queryParams.title as string;
+    this.flag = Number.parseInt(this.route.snapshot.queryParams.flg, 10);
     this.getTestInfos();
   }
 
@@ -68,6 +72,9 @@ export class TestComponent implements OnInit {
         this.checkRes = null;
         this.setAllInfo();
         this.next();
+        if (this.flag !== 0) {
+          this.setAllCountTimmer(this.costTime);
+        }
       },
       error => {
         alert(error);
@@ -109,9 +116,11 @@ export class TestComponent implements OnInit {
     } else {
       this.testedSentenceCount = this.testedSentenceCount + 1;
     }
-    this.setTimmer(this.currentTest.type === 1 ?
-      ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey) :
-      ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+    if (this.flag === 0) {
+      this.setTimmer(this.currentTest.type === 1 ?
+        ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey) :
+        ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+    }
   }
 
   public check(inCount?: boolean) {
@@ -137,12 +146,30 @@ export class TestComponent implements OnInit {
     }
   }
 
+  public setAllCountTimmer(t: number) {
+    let counter = t as number;
+    this.interval = setInterval(() => {
+      if (this.pauseFlg) {
+        return;
+      }
+      if (counter > 0) {
+        counter--;
+        this.costedTime = this.costedTime + 1;
+      } else {
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  }
+
   public setTimmer(t: number) {
     if (this.interval) {
       clearInterval(this.interval);
     }
     let counter = t as number;
     this.interval = setInterval(() => {
+      if (this.pauseFlg) {
+        return;
+      }
       if (counter > 0) {
         counter--;
         if (this.costTime > 0) {
@@ -202,5 +229,18 @@ export class TestComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  public cancel() {
+    // tslint:disable-next-line: no-use-before-declare
+    const dialogRef = this.dialog.open(ComfirmDialogComponent, {
+      disableClose: true,
+      data: { message: `試験を取り消しますか？` }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['MainPage']);
+      }
+    });
   }
 }

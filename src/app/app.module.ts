@@ -9,7 +9,6 @@ import { HeaderComponent } from './pages/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AllMaterialModule } from './all-material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TopinfoComponent } from './components/topinfo/topinfo.component';
 import { TextboxinfoComponent, TextInfoDialog } from './components/textbox/textboxinfo/textboxinfo.component';
 import { ComfirmDialogComponent } from './components/comfirm-dialog/comfirm-dialog.component';
 import { WordCourseComponent } from './components/word-course/word-course.component';
@@ -29,7 +28,6 @@ import { TestResultComponent } from './components/test-result/test-result.compon
     AppComponent,
     MainPageComponent,
     HeaderComponent,
-    TopinfoComponent,
     TextboxinfoComponent,
     TextInfoDialog,
     ComfirmDialogComponent,

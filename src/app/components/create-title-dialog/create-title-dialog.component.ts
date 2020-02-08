@@ -11,12 +11,13 @@ export class CreateTitleDialogComponent {
   constructor(public dialogRef: MatDialogRef<CreateTitleDialogComponent>) { }
 
   public title: string;
+  public countTImeFlg = 0;
 
   onOkClick(): void {
     if (isNullOrUndefined(this.title)) {
       alert('名称を入力してください。');
     } else {
-      this.dialogRef.close(this.title);
+      this.dialogRef.close({ title: this.title, flg: this.countTImeFlg });
     }
   }
 }

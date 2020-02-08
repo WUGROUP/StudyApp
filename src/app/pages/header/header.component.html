@@ -3,6 +3,6 @@
     <button *ngIf="isManager" mat-raised-button color="warn" (click)="logoutButton()">管理者ログアウト</button>
     <button *ngIf="isManager" mat-raised-button color="warn" (click)="textBoxManager()">教材管理</button>
     <button *ngIf="isManager" mat-raised-button color="warn" (click)="createTest()">試験作成</button>
-    <button *ngIf="isManager" mat-raised-button color="warn" (click)="testManager()">試験管理</button>
+    <!-- <button *ngIf="isManager" mat-raised-button color="warn" (click)="testManager()">試験管理</button> -->
     <span *ngIf="showCounter">残り時間{{timeLeft}}秒</span>
 </div>

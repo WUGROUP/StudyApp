@@ -1,12 +1,12 @@
-<h1 style="font-size: 160%;">試験結果</h1>
+<h1 style="font-size: 3vw;">試験結果</h1>
 <hr>
-<mat-dialog-content style="font-size: 150%;">
+<mat-dialog-content style="font-size: 2vw;">
     得点：{{res.score}}<br>
     単語：{{res.okWordCount}}正/全{{res.allWordCount}}<br>
     文　：{{res.okSentenceCount}}正/全{{res.allSentenceCount}}
 </mat-dialog-content>
 <hr>
 <mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" [mat-dialog-close]="true" (click)="challenge()">も一回チャレンジ</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="true">も一回チャレンジ</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="false">試験完了にする</button>
 </mat-dialog-actions>

@@ -51,5 +51,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 <hr>
-<button mat-raised-button color="warn" (click)="new()" [disabled]='createBtnDisabled'>新規試験</button>&nbsp;&nbsp;<span
+<button mat-raised-button color="warn" [disabled]='createBtnDisabled'>新規試験</button>&nbsp;&nbsp;<span
     style="color:red;">単課程の場合一つ選択してください。纏めて試験した場合複数を選択してください。</span>

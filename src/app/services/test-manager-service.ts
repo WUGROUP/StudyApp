@@ -12,8 +12,9 @@ export class TestManagerService extends BaseService {
             { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
     }
 
-    public saveTestInfo<T>(testTitle: string, testMainIds: number[]) {
-        return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=INSERT`, { title: testTitle, mainIds: testMainIds },
+    public saveTestInfo<T>(testTitle: string, testCountTimeFlg: number, testMainIds: number[]) {
+        return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=INSERT`,
+            { title: testTitle, countTimeFlg: testCountTimeFlg, mainIds: testMainIds },
             { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
     }
 

@@ -39,6 +39,6 @@ export class TodoTestComponent implements OnInit {
   }
 
   startTest(todoInfo: SummaryTestInfoDto) {
-    this.router.navigate(['Test'], { queryParams: { id: todoInfo.id, costTime: todoInfo.costTime, title: todoInfo.title } });
+    this.router.navigate(['Test'], { queryParams: { id: todoInfo.id, costTime: todoInfo.costTime, title: todoInfo.title, flg: todoInfo.countTimeFlg } });
   }
 }
