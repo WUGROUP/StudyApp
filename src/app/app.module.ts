@@ -22,6 +22,7 @@ import { TodoTestComponent } from './components/todo-test/todo-test.component';
 import { TestComponent } from './components/test/test.component';
 import { ScoreDialogComponent } from './components/score-dialog/score-dialog.component';
 import { TestResultComponent } from './components/test-result/test-result.component';
+import { TestResDetailComponent } from './components/test-res-detail/test-res-detail.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { TestResultComponent } from './components/test-result/test-result.compon
     TodoTestComponent,
     TestComponent,
     ScoreDialogComponent,
-    TestResultComponent
+    TestResultComponent,
+    TestResDetailComponent
   ],
   imports: [
     BrowserModule,

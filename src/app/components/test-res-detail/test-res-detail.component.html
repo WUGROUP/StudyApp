@@ -1,0 +1,13 @@
+<mat-form-field>
+    <mat-label>試験対象</mat-label>
+    <mat-select [(ngModel)]="selected" required (selectionChange)="onChange($event.value)" cdkFocusInitial>
+        <mat-option [value]='-1'> </mat-option>
+        <mat-option *ngFor="let item of testedListInfos" [value]="item.id">
+            {{item.title}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+<br>
+<h4>単語</h4>
+<br>
+<h4>文</h4>
