@@ -29,7 +29,7 @@ export class AppUtils {
         }).join('');
     }
 
-    public static checkIsOK(checkStr: string, answer: string): number {
+    public static checkWordIsOK(checkStr: string, answer: string): number {
         if (this.isNullorUndefined(answer) || this.isNullorUndefined(checkStr)) {
             return 1;
         }
@@ -40,4 +40,50 @@ export class AppUtils {
         }
     }
 
+    public static toTestList(checkStr: string, randomFLg?: boolean) {
+        if (!this.isNullorUndefined(checkStr)) {
+            let tmpStr = checkStr.replace(/　/g, ' ');
+            const lastChar = tmpStr.charAt(tmpStr.length - 1);
+            let isLastHas = false;
+            if (lastChar === '.' || lastChar === '?' || lastChar === '。' || lastChar === '!' || lastChar === '！') {
+                isLastHas = true;
+            }
+            if (isLastHas) {
+                tmpStr = tmpStr.substr(0, tmpStr.length - 1);
+            }
+            tmpStr = Array.from(tmpStr).filter((item) => {
+                return item.match(/^[A-Za-z0-9 ',!。?.]*$/);
+            }).join('');
+
+            const tmpList = tmpStr.split(' ');
+            console.log(`before : ${tmpList}`);
+            if (randomFLg) {
+                for (let i = tmpList.length - 1; i > 0; i--) {
+                    const r = Math.floor(Math.random() * (i + 1));
+                    const tmp = tmpList[i];
+                    tmpList[i] = tmpList[r];
+                    tmpList[r] = tmp;
+                }
+            }
+            if (isLastHas) {
+                tmpList.push(lastChar);
+            }
+            console.log(`after : ${tmpList}`);
+            return tmpList;
+        } else {
+            return [];
+        }
+    }
+
+    public static checkSentenceIsOK(contentStr: string, answer: string[]): number {
+        if (this.isNullorUndefined(answer) || this.isNullorUndefined(contentStr)) {
+            return 1;
+        }
+        const checkList = this.toTestList(contentStr, false);
+        if (answer.join('') === checkList.join('')) {
+            return 0;
+        } else {
+            return 2;
+        }
+    }
 }

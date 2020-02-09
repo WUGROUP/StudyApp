@@ -26,8 +26,14 @@
     <hr>
     <div>
         回答：
-        <input [disabled]="pauseFlg" type="text" class="form-control" [value]="currentTest.answer"
-            (input)="currentTest.answer = $event.target.value" style="width: 100%; font-size: 2vw;" />
+        <input [disabled]="pauseFlg" *ngIf="currentTest.type === 1" type="text" class="form-control"
+            [value]="currentTest.answer" (input)="currentTest.answer = $event.target.value"
+            style="width: 100%; font-size: 2vw;" />
+
+        <div cdkDropList cdkDropListOrientation="horizontal" *ngIf="currentTest.type === 2" class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let timePeriod of timePeriods" cdkDrag>{{timePeriod}}</div>
+        </div>
     </div>
 </div>
 <hr>

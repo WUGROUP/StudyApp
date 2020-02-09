@@ -8,6 +8,7 @@ import { AppUtils } from 'src/app/utils/app-utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ScoreDialogComponent } from '../score-dialog/score-dialog.component';
 import { ComfirmDialogComponent } from '../comfirm-dialog/comfirm-dialog.component';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-test',
@@ -110,6 +111,9 @@ export class TestComponent implements OnInit, OnDestroy {
     if (this.currentIndex !== -1 && this.currentIndex < this.allContentCount - 1) {
       this.check(true);
     } else if (this.currentIndex === this.allContentCount - 1) {
+      if (this.currentTest.type === 2) {
+        this.currentTest.answer = this.timePeriods.join(' ');
+      }
       this.check(true);
       clearInterval(this.interval);
       this.isTesting = false;
@@ -118,7 +122,13 @@ export class TestComponent implements OnInit, OnDestroy {
       return;
     }
     this.currentIndex = this.currentIndex + 1;
+    if (this.currentTest && this.currentTest.type === 2) {
+      this.currentTest.answer = this.timePeriods.join(' ');
+    }
     this.currentTest = this.testInfo[this.currentIndex];
+    if (this.currentTest.type === 2) {
+      this.timePeriods = AppUtils.toTestList(this.currentTest.content, true);
+    }
     this.checkRes = null;
     this.processBarValue = 0;
     if (this.currentTest.type === 1) {
@@ -135,19 +145,22 @@ export class TestComponent implements OnInit, OnDestroy {
 
   public check(inCount?: boolean) {
 
-    if (isNullOrUndefined(this.currentTest.answer)) {
+    if (this.currentTest.type === 1 && isNullOrUndefined(this.currentTest.answer)) {
       this.currentTest.res = 1;
-    } else if (AppUtils.checkIsOK(this.currentTest.content, this.currentTest.answer) === 0) {
-      if (inCount) {
+    } else {
+      if (this.currentTest.type === 1) {
+        this.currentTest.res = AppUtils.checkWordIsOK(this.currentTest.content, this.currentTest.answer);
+      } else {
+        this.currentTest.res = AppUtils.checkSentenceIsOK(this.currentTest.content, this.timePeriods);
+      }
+
+      if (inCount && this.currentTest.res === 0) {
         if (this.currentTest.type === 1) {
           this.okWordCount = this.okWordCount + 1;
         } else {
           this.okSentenceCount = this.okSentenceCount + 1;
         }
       }
-      this.currentTest.res = 0;
-    } else {
-      this.currentTest.res = 2;
     }
     if (this.currentTest.res === 0) {
       this.checkRes = '⭕';
@@ -229,18 +242,6 @@ export class TestComponent implements OnInit, OnDestroy {
     );
   }
 
-  private isAnswerOk(answer: string, content: string) {
-    const tmp1 = answer.toLowerCase().replace(/ /g, '').replace(/　/g, '');
-    const tmp2 = content.toLowerCase().replace(/ /g, '').replace(/　/g, '');
-    console.log(`answer => ${tmp1}`);
-    console.log(`content => ${tmp2}`);
-    if (tmp1 === tmp2) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   public cancel() {
     // tslint:disable-next-line: no-use-before-declare
     const dialogRef = this.dialog.open(ComfirmDialogComponent, {
@@ -254,6 +255,12 @@ export class TestComponent implements OnInit, OnDestroy {
     });
   }
 
+  timePeriods = [];
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.timePeriods, event.previousIndex, event.currentIndex);
+    console.log(this.timePeriods);
+  }
 
   ngOnDestroy(): void {
     if (this.interval) {
