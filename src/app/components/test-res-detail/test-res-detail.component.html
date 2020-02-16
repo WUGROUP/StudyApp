@@ -52,7 +52,7 @@
         <td mat-cell *matCellDef="let element">
             <table>
                 <tr>
-                    <td>本文</td>
+                    <td>問</td>
                     <td>{{element.content}}</td>
                 </tr>
                 <tr>
@@ -81,4 +81,43 @@
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedSentenceColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedSentenceColumns;"></tr>
+</table>
+<br>
+<h4>選択型</h4>
+
+<table mat-table [dataSource]="selectInfos" class="mat-elevation-z8">
+    <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>文</th>
+        <td mat-cell *matCellDef=" let element">
+            <table>
+                <tr>
+                    <td>問</td>
+                    <td>{{element.content}}</td>
+                </tr>
+                <tr>
+                    <td>意味（日本語）</td>
+                    <td>{{element.content1}}</td>
+                </tr>
+                <tr>
+                    <td>意味（中国語）</td>
+                    <td>{{element.content2}}</td>
+                </tr>
+                <tr>
+                    <td>回答内容</td>
+                    <td>
+                        <table>
+                            <tr *ngFor="let item of element.answers">
+                                <td>{{item.answer}}</td>
+                                <td>{{item.createdDate}}</td>
+                                <td *ngIf="item.res=== 0">⭕</td>
+                                <td *ngIf="item.res!== 0">❌</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedSelectColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedSelectColumns;"></tr>
 </table>

@@ -26,6 +26,10 @@ export class TestResDetailComponent implements OnInit {
 
   public displayedSentenceColumns: string[] = ['sentence'];
 
+  public selectInfos: MatTableDataSource<ContentInfo> = null;
+
+  public displayedSelectColumns: string[] = ['select'];
+
   public selected = -1;
 
   ngOnInit() {
@@ -57,6 +61,7 @@ export class TestResDetailComponent implements OnInit {
       (rows) => {
         const testedWordInfos = [];
         const testedSentenceInfos = new Array<ContentInfo>();
+        const testedSelectInfos = new Array<ContentInfo>();
         let tempId: number;
         let cInfo: ContentInfo = null;
         for (let i = 0; i < rows.length; i++) {
@@ -65,12 +70,17 @@ export class TestResDetailComponent implements OnInit {
             cInfo = new ContentInfo();
             if (item.type === 1) {
               testedWordInfos.push(cInfo);
-            } else {
+            } else if (item.type === 2) {
               testedSentenceInfos.push(cInfo);
+            } else {
+              testedSelectInfos.push(cInfo);
             }
             tempId = item.id;
             cInfo.id = item.id;
             cInfo.content = item.content;
+            if (cInfo.type === 3) {
+              cInfo.selectItems = JSON.parse(item.content1);
+            }
             cInfo.content1 = item.content1;
             cInfo.content2 = item.content2;
             cInfo.answers = new Array<TestInfo>();
@@ -89,6 +99,7 @@ export class TestResDetailComponent implements OnInit {
         }
         this.wordsInfos = new MatTableDataSource<ContentInfo>(testedWordInfos);
         this.sentencesInfos = new MatTableDataSource<ContentInfo>(testedSentenceInfos);
+        this.selectInfos = new MatTableDataSource<ContentInfo>(testedSelectInfos);
       },
       (error) => {
         alert(error);
