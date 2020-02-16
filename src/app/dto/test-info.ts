@@ -1,3 +1,5 @@
+import { SelectInfo } from './select-info';
+
 export class TestInfo {
     public summaryId!: number;
     public mainId!: number;
@@ -10,4 +12,6 @@ export class TestInfo {
     public content2!: string;
     public answer!: string;
     public res!: number;
+    public createdDate!: string;
+    public selectItems = new Array<SelectInfo>();
 }

@@ -1,11 +1,16 @@
 import { ConfigManager } from './config-manager';
 import { HttpHeaders } from '@angular/common/http';
+import { SelectInfo } from '../dto/select-info';
 
 export class AppUtils {
 
 
     public static isNullorUndefined(obj: any): boolean {
         return obj === null || obj === undefined;
+    }
+
+    public static isNullOrSpace(obj: any): boolean {
+        return obj === null || obj === undefined || obj === '';
     }
 
     /** check admin passsword */
@@ -17,9 +22,9 @@ export class AppUtils {
         responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
 
-    public static calScore(okWordCount: number, allWordCount: number, okSentenceCount: number, allSentenceCount: number) {
-        const wcRatio = 5;
-        const score = Math.round((100 / (allWordCount + allSentenceCount * wcRatio)) * (okWordCount + okSentenceCount * wcRatio));
+    public static calScore(okWordCount: number, allWordCount: number, okSentenceCount: number, allSentenceCount: number, okSelectCount: number, allSelectCount: number) {
+        const wcRatio = 1;
+        const score = Math.round((100 / (allWordCount + allSelectCount + allSentenceCount * wcRatio)) * (okWordCount + okSelectCount + okSentenceCount * wcRatio));
         return score;
     }
 
@@ -81,6 +86,41 @@ export class AppUtils {
         }
         const checkList = this.toTestList(contentStr, false);
         if (answer.join('') === checkList.join('')) {
+            return 0;
+        } else {
+            return 2;
+        }
+    }
+
+    public static getPerTime(type: number): number {
+        if (type === 1) {
+            return Number.parseInt(ConfigManager.getValue<string>(ConfigManager.wordPerTimeKey), 10);
+        } else if (type === 2) {
+            return Number.parseInt(ConfigManager.getValue<string>(ConfigManager.sentencePerTimeKey), 10);
+        } else {
+            return Number.parseInt(ConfigManager.getValue<string>(ConfigManager.selectPerTimeKey), 10);
+        }
+    }
+
+    public static checkSelectIsOK(selectItem: SelectInfo[]): number {
+        let isAllRight = true;
+        let isAllFalse = true;
+
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < selectItem.length; i++) {
+            const item = selectItem[i];
+            if (item.answer !== item.isAnswer) {
+                isAllRight = false;
+            }
+            if (item.answer) {
+                isAllFalse = false;
+            }
+        }
+
+        if (isAllFalse) {
+            return 1;
+        }
+        if (isAllRight) {
             return 0;
         } else {
             return 2;

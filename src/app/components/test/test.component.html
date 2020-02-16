@@ -6,6 +6,7 @@
     </span>予定総時間：{{planCostTime * 1000 | date:'H時　mm分　ss秒':'UTC'}}
     <br>単語数　：{{testedWordCount}}/{{allWordCount}}
     <span style="margin-left: 10px;">文数：{{testedSentenceCount}}/{{allSentenceCount}}</span>
+    <span style="margin-left: 10px;">選択型数：{{testedSelectCount}}/{{allSelectCount}}</span>
     <span style="margin-left: 10px;" *ngIf="checkRes">チェック結果：{{checkRes}}</span>
     <br>
     <button *ngIf="isTesting" mat-raised-button color="primary" (click)="pause()">{{buttonName}}</button>
@@ -13,28 +14,44 @@
 <hr>
 <mat-progress-bar *ngIf="flag === 0" mode="determinate" [value]="processBarValue"></mat-progress-bar>
 <div style="width: 100%; font-size: 2vw" *ngIf="currentTest">
-    <div>
-        意味（日本語）：
-        <br>
-        <span style="margin-left: 40px;">{{currentTest.content1}}</span>
-    </div>
-    <hr>
-    <div>
-        意味（中国語）：<br>
-        <span style="margin-left: 40px;">{{currentTest.content2}}</span>
-    </div>
-    <hr>
-    <div>
-        回答：
-        <input [disabled]="pauseFlg" *ngIf="currentTest.type === 1" type="text" class="form-control"
-            [value]="currentTest.answer" (input)="currentTest.answer = $event.target.value"
-            style="width: 100%; font-size: 2vw;" />
-
-        <div cdkDropList cdkDropListOrientation="horizontal" *ngIf="currentTest.type === 2" class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            <div class="example-box" *ngFor="let timePeriod of timePeriods" cdkDrag>{{timePeriod}}</div>
+    <ng-container *ngIf="currentTest.type !== 3">
+        <div>
+            意味（日本語）：
+            <br>
+            <span style="margin-left: 40px;">{{currentTest.content1}}</span>
         </div>
-    </div>
+        <hr>
+        <div>
+            意味（中国語）：<br>
+            <span style="margin-left: 40px;">{{currentTest.content2}}</span>
+        </div>
+        <hr>
+        <div>
+            回答：
+            <input [disabled]="pauseFlg" *ngIf="currentTest.type === 1" type="text" class="form-control"
+                [value]="currentTest.answer" (input)="currentTest.answer = $event.target.value"
+                style="width: 100%; font-size: 2vw;" />
+
+            <div cdkDropList cdkDropListOrientation="horizontal" *ngIf="currentTest.type === 2" class="example-list"
+                (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let timePeriod of timePeriods" cdkDrag>{{timePeriod}}</div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="currentTest.type === 3">
+        <div>
+            問：
+            <br>
+            <span style="margin-left: 40px;">{{currentTest.content}}</span>
+        </div>
+        <hr>
+        <table>
+            <tr *ngFor="let item of currentTest.selectItems">
+                <mat-checkbox [checked]="item.answer" (change)="item.answer = $event.checked">{{item.content}}
+                </mat-checkbox>
+            </tr>
+        </table>
+    </ng-container>
 </div>
 <hr>
 <button *ngIf="isTesting && !pauseFlg" mat-raised-button color="primary" (click)="next()">次へ</button>

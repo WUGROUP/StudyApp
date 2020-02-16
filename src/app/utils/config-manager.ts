@@ -9,6 +9,8 @@ export class ConfigManager {
 
     public static wordPerTimeKey = 'WordPerTime';
 
+    public static selectPerTimeKey = 'SelectPerTime';
+
     public static sentencePerTimeKey = 'SentencePerTime';
 
     public static uslKey = 'ApiUrl';

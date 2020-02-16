@@ -1,0 +1,50 @@
+<h4><strong>{{textBoxName}}</strong>の
+    <mat-form-field>
+        <mat-label>課程選択</mat-label>
+        <mat-select [(ngModel)]="selectedCourse" required (selectionChange)="onChange($event.value)"
+            [disabled]="selectedCourse > 0" cdkFocusInitial>
+            <mat-option [value]='-1'> </mat-option>
+            <mat-option *ngFor="let index of courseOptions" [value]="index">
+                第{{index}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>課程の選択型登録</h4>
+<button mat-raised-button [disabled]="selectedCourse < 0" color="warn" (click)="addRows()">5件追加</button><button
+    mat-raised-button [disabled]="selectedCourse < 0" color="warn" (click)="clear()">クリア</button>
+<hr>
+<table class="mat-elevation-z8">
+    <ng-container *ngFor="let contentInfo of contentInfos">
+        <tr>
+            <td style="width: 35px;">問:</td>
+            <td colspan="2">
+                <input type="text" class="form-control" [value]="contentInfo.content"
+                    (input)="contentInfo.content = $event.target.value" />
+            </td>
+        </tr>
+        <tr>
+            <td>選択肢:</td>
+            <td>
+                <table>
+                    <tr *ngFor="let item of contentInfo.selectItems; let i = index">
+                        <td style="width: 10px;">
+                            {{i+1}}
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" [value]="item.content"
+                                (input)="item.content = $event.target.value" />
+                        </td>
+                        <td style="width: 10px;">
+                            <mat-checkbox [checked]="item.isAnswer" (change)="item.isAnswer = $event.checked">
+                            </mat-checkbox>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 70px;">
+                <button mat-raised-button color="warn" (click)="addSelect(contentInfo)">追加</button>
+            </td>
+        </tr>
+    </ng-container>
+</table>
+<hr>
+<button [disabled]="saveBtnDisableFlg" mat-raised-button color="warn" (click)="save()">保存</button>

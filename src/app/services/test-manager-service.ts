@@ -37,5 +37,10 @@ export class TestManagerService extends BaseService {
         return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=TESTED_LIST`, null,
             { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
     }
+
+    public getAllTestedInfosById<T>(param: { id: number }) {
+        return this.httpClient.post<T>(this.ApiUrl + `/TestManager?ACTION=GET_ALL_TESTED_INFO_BY_ID`, param,
+            { responseType: 'json', headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    }
 }
 

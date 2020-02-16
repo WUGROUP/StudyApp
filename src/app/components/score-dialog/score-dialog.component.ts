@@ -30,7 +30,9 @@ export class ScoreDialogComponent implements OnInit {
 export class ScoreDialogParamObj {
   okWordCount: number;
   okSentenceCount: number;
+  okSelectCount: number;
   allWordCount: number;
   allSentenceCount: number;
+  allSelectCount: number;
   score: number;
 }

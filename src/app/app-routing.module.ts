@@ -8,6 +8,7 @@ import { SentenceCourseComponent } from './components/sentence-course/sentence-c
 import { TestManagerComponent } from './components/test-manager/test-manager.component';
 import { CreateTestComponent } from './components/create-test/create-test.component';
 import { TestComponent } from './components/test/test.component';
+import { SelectCourseComponent } from './components/select-course/select-course.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'TestManager', component: TestManagerComponent },
   { path: 'CreateTest', component: CreateTestComponent },
   { path: 'Test', component: TestComponent },
+  { path: 'SelectCourse', component: SelectCourseComponent },
   { path: '**', component: MainPageComponent }
 ];
 

@@ -9,6 +9,7 @@ import { isNullOrUndefined } from 'util';
 import { MatDialog } from '@angular/material/dialog';
 import { ComfirmDialogComponent } from '../comfirm-dialog/comfirm-dialog.component';
 import { CreateTitleDialogComponent } from '../create-title-dialog/create-title-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -19,7 +20,9 @@ import { CreateTitleDialogComponent } from '../create-title-dialog/create-title-
 })
 export class CreateTestComponent implements OnInit {
 
-  constructor(private textBookInfoService: TextBookInfosService, private testManager: TestManagerService, public dialog: MatDialog) { }
+  constructor(
+    private _snackBar: MatSnackBar,
+    private textBookInfoService: TextBookInfosService, private testManager: TestManagerService, public dialog: MatDialog) { }
 
   public textBooks: TextBoxInfo[] = null;
 
@@ -47,7 +50,9 @@ export class CreateTestComponent implements OnInit {
       (rows: MainInfo[]) => {
         if (isNullOrUndefined(rows) || rows.length === 0) {
           this.createBtnDisabled = true;
-          alert('試験内容が未設定です。教材管理画面から設定してください。');
+          this._snackBar.open('試験内容が未設定です。教材管理画面から設定してください。', null, {
+            duration: 2000,
+          });
         } else {
           this.createBtnDisabled = false;
         }
@@ -81,7 +86,9 @@ export class CreateTestComponent implements OnInit {
 
   createTest() {
     if (this.selection.selected.length === 0) {
-      alert('1行以上を選択してください。');
+      this._snackBar.open('1行以上を選択してください。', null, {
+        duration: 2000,
+      });
     } else {
       // tslint:disable-next-line: no-use-before-declare
       const dialogRef = this.dialog.open(ComfirmDialogComponent, {
@@ -117,7 +124,9 @@ export class CreateTestComponent implements OnInit {
     this.testManager.saveTestInfo(title, flg, createTagMainIds).subscribe(
       () => {
         this.selection.clear();
-        alert('保存しました。');
+        this._snackBar.open('保存しました。', null, {
+          duration: 2000,
+        });
       },
       (error) => alert(error)
     );

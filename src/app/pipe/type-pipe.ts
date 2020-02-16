@@ -8,6 +8,8 @@ export class TypePipe implements PipeTransform {
                 return '単語';
             case 2:
                 return '文';
+            case 3:
+                return '選択型';
             default:
                 return '';
         }

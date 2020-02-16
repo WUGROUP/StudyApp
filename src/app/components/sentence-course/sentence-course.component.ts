@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContentInfoService } from 'src/app/services/content-info-service';
 import { AppUtils } from 'src/app/utils/app-utils';
 import { MainInfoService } from 'src/app/services/main-info-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-sentence-course',
@@ -14,7 +15,9 @@ import { MainInfoService } from 'src/app/services/main-info-service';
 })
 export class SentenceCourseComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private contentInfoService: ContentInfoService, private mainInfoService: MainInfoService) { }
+  constructor(
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute, private contentInfoService: ContentInfoService, private mainInfoService: MainInfoService) { }
 
   public displayedColumns: string[] = ['sentence'];
 
@@ -121,10 +124,15 @@ export class SentenceCourseComponent implements OnInit {
     }).subscribe(
       () => {
         this.getContentInfos(this.selectedCourse);
-        alert('保存しました。');
+        this._snackBar.open('保存しました。', null, {
+          duration: 2000,
+        });
+        return;
       },
       (error) => {
-        alert('保存失敗しました。');
+        this._snackBar.open('保存失敗しました。', 'エラー', {
+          duration: 2000
+        });
       }
     );
 

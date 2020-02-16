@@ -23,6 +23,7 @@ import { TestComponent } from './components/test/test.component';
 import { ScoreDialogComponent } from './components/score-dialog/score-dialog.component';
 import { TestResultComponent } from './components/test-result/test-result.component';
 import { TestResDetailComponent } from './components/test-res-detail/test-res-detail.component';
+import { SelectCourseComponent } from './components/select-course/select-course.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { TestResDetailComponent } from './components/test-res-detail/test-res-de
     TestComponent,
     ScoreDialogComponent,
     TestResultComponent,
-    TestResDetailComponent
+    TestResDetailComponent,
+    SelectCourseComponent
   ],
   imports: [
     BrowserModule,

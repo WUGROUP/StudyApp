@@ -4,6 +4,7 @@ import { SummaryTestInfoDto } from 'src/app/dto/summary-test-info';
 import { MatTableDataSource } from '@angular/material/table';
 import { ConfigManager } from 'src/app/utils/config-manager';
 import { Router } from '@angular/router';
+import { AppUtils } from 'src/app/utils/app-utils';
 
 @Component({
   selector: 'app-test-result',
@@ -26,9 +27,7 @@ export class TestResultComponent implements OnInit {
             item.costTime = 0;
             item.mainInfos.forEach((mainInfo) => {
               item.costTime = item.costTime +
-                (mainInfo.type === 1 ?
-                  mainInfo.contentsCount * ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey)
-                  : mainInfo.contentsCount * ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+                AppUtils.getPerTime(mainInfo.type) * mainInfo.contentsCount;
             });
           }
         );

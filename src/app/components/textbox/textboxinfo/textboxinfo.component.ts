@@ -123,6 +123,10 @@ export class TextboxinfoComponent extends BaseComponent implements OnInit {
   setSentenceCourse(info: TextBoxInfo) {
     this.router.navigate(['SentenceCourse'], { queryParams: { id: info.id, title: info.title, courseCount: info.courseCount } });
   }
+
+  setSelect(info: TextBoxInfo) {
+    this.router.navigate(['SelectCourse'], { queryParams: { id: info.id, title: info.title, courseCount: info.courseCount } });
+  }
 }
 
 

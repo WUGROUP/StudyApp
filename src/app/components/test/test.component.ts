@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ScoreDialogComponent } from '../score-dialog/score-dialog.component';
 import { ComfirmDialogComponent } from '../comfirm-dialog/comfirm-dialog.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-test',
@@ -20,6 +21,7 @@ export class TestComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private _snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private testManagerService: TestManagerService,
     public dialog: MatDialog,
@@ -32,6 +34,8 @@ export class TestComponent implements OnInit, OnDestroy {
   public allWordCount = 0;
   public testedSentenceCount = 0;
   public allSentenceCount = 0;
+  public testedSelectCount = 0;
+  public allSelectCount = 0;
   private testInfo: TestInfo[] = null;
   private interval: any = null;
   public currentTest: TestInfo = null;
@@ -41,6 +45,7 @@ export class TestComponent implements OnInit, OnDestroy {
   public costedTime = 0;
   public okWordCount = 0;
   public okSentenceCount = 0;
+  public okSelectCount = 0;
   public processBarValue = 0;
   public checkRes = null;
   public planCostTime = 0;
@@ -74,6 +79,8 @@ export class TestComponent implements OnInit, OnDestroy {
         this.allWordCount = 0;
         this.allSentenceCount = 0;
         this.okSentenceCount = 0;
+        this.okSelectCount = 0;
+        this.allSelectCount = 0;
         this.isTesting = true;
         this.currentIndex = -1;
         this.testInfo = rows;
@@ -81,6 +88,9 @@ export class TestComponent implements OnInit, OnDestroy {
         this.allContentCount = this.testInfo.length;
         this.processBarValue = 0;
         this.checkRes = null;
+        this.testedSelectCount = 0;
+        this.testedSentenceCount = 0;
+        this.testedWordCount = 0;
         this.setAllInfo();
         this.next();
         if (this.flag !== 0) {
@@ -100,8 +110,11 @@ export class TestComponent implements OnInit, OnDestroy {
         info.res = null;
         if (info.type === 1) {
           this.allWordCount = this.allWordCount + 1;
-        } else {
+        } else if (info.type === 2) {
           this.allSentenceCount = this.allSentenceCount + 1;
+        } else {
+          info.selectItems = JSON.parse(info.content1);
+          this.allSelectCount = this.allSelectCount + 1;
         }
       }
     );
@@ -113,17 +126,22 @@ export class TestComponent implements OnInit, OnDestroy {
     } else if (this.currentIndex === this.allContentCount - 1) {
       if (this.currentTest.type === 2) {
         this.currentTest.answer = this.timePeriods.join(' ');
+      } else if (this.currentTest.type === 3) {
+        this.currentTest.answer = JSON.stringify(this.currentTest.selectItems);
       }
       this.check(true);
       clearInterval(this.interval);
       this.isTesting = false;
-      const res = AppUtils.calScore(this.okWordCount, this.allWordCount, this.okSentenceCount, this.allSentenceCount);
+      const res = AppUtils.calScore(this.okWordCount, this.allWordCount, this.okSentenceCount, this.allSentenceCount, this.okSelectCount, this.allSelectCount);
       this.saveTestRes(res);
       return;
     }
     this.currentIndex = this.currentIndex + 1;
     if (this.currentTest && this.currentTest.type === 2) {
       this.currentTest.answer = this.timePeriods.join(' ');
+    }
+    if (this.currentTest && this.currentTest.type === 3) {
+      this.currentTest.answer = JSON.stringify(this.currentTest.selectItems);
     }
     this.currentTest = this.testInfo[this.currentIndex];
     if (this.currentTest.type === 2) {
@@ -133,13 +151,13 @@ export class TestComponent implements OnInit, OnDestroy {
     this.processBarValue = 0;
     if (this.currentTest.type === 1) {
       this.testedWordCount = this.testedWordCount + 1;
-    } else {
+    } else if (this.currentTest.type === 2) {
       this.testedSentenceCount = this.testedSentenceCount + 1;
+    } else {
+      this.testedSelectCount = this.testedSelectCount + 1;
     }
     if (this.flag === 0) {
-      this.setTimmer(this.currentTest.type === 1 ?
-        ConfigManager.getValue<number>(ConfigManager.wordPerTimeKey) :
-        ConfigManager.getValue<number>(ConfigManager.sentencePerTimeKey));
+      this.setTimmer(AppUtils.getPerTime(this.currentTest.type));
     }
   }
 
@@ -150,23 +168,42 @@ export class TestComponent implements OnInit, OnDestroy {
     } else {
       if (this.currentTest.type === 1) {
         this.currentTest.res = AppUtils.checkWordIsOK(this.currentTest.content, this.currentTest.answer);
-      } else {
+      } else if (this.currentTest.type === 2) {
         this.currentTest.res = AppUtils.checkSentenceIsOK(this.currentTest.content, this.timePeriods);
+      } else {
+        this.currentTest.res = AppUtils.checkSelectIsOK(this.currentTest.selectItems);
       }
 
       if (inCount && this.currentTest.res === 0) {
         if (this.currentTest.type === 1) {
           this.okWordCount = this.okWordCount + 1;
-        } else {
+        } else if (this.currentTest.type === 2) {
           this.okSentenceCount = this.okSentenceCount + 1;
+        } else {
+          this.okSelectCount = this.okSelectCount + 1;
         }
       }
     }
+    let resMessage = '';
     if (this.currentTest.res === 0) {
       this.checkRes = '⭕';
+      resMessage = '正解でした。';
+
     } else {
       this.checkRes = '❌';
+      if (this.currentTest.res === 1) {
+        if (inCount) {
+          resMessage = 'あきらめました。';
+        } else {
+          resMessage = '答えなさい。';
+        }
+      } else {
+        resMessage = '残念、不正でした。';
+      }
     }
+    this._snackBar.open(resMessage, '結果', {
+      duration: 2000
+    });
   }
 
   public setAllCountTimmer(t: number) {
@@ -217,8 +254,10 @@ export class TestComponent implements OnInit, OnDestroy {
       data: {
         okWordCount: this.okWordCount,
         okSentenceCount: this.okSentenceCount,
+        okSelectCount: this.okSelectCount,
         allWordCount: this.allWordCount,
         allSentenceCount: this.allSentenceCount,
+        allSelectCount: this.allSelectCount,
         score: res
       }
     }

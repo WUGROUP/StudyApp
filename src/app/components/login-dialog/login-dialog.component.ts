@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ConfigManager } from 'src/app/utils/config-manager';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-dialog',
@@ -9,7 +10,7 @@ import { ConfigManager } from 'src/app/utils/config-manager';
 })
 export class LoginDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<LoginDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<LoginDialogComponent>, private _snackBar: MatSnackBar) { }
 
   public password: string;
 
@@ -17,7 +18,13 @@ export class LoginDialogComponent {
     if (this.password === ConfigManager.getValue(ConfigManager.passKey)) {
       this.dialogRef.close(true);
     } else {
-      alert('パスワードが間違いました。');
+      this._snackBar.open('パスワードが間違いました。', null, {
+        duration: 2000,
+      });
     }
   }
+  onCancelClick(): void {
+    this.dialogRef.close(false);
+  }
+
 }

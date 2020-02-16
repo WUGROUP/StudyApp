@@ -9,5 +9,76 @@
 </mat-form-field>
 <br>
 <h4>単語</h4>
+<table mat-table [dataSource]="wordsInfos" class="mat-elevation-z8">
+    <ng-container matColumnDef="content">
+        <th mat-header-cell *matHeaderCellDef>単語</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.content}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="content1">
+        <th mat-header-cell *matHeaderCellDef> 意味（日本語） </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.content1}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="content2">
+        <th mat-header-cell *matHeaderCellDef>意味（中国語）</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.content2}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="answers">
+        <th mat-header-cell *matHeaderCellDef>回答内容</th>
+        <td mat-cell *matCellDef="let element">
+            <table>
+                <tr *ngFor="let item of element.answers">
+                    <td>{{item.answer}}</td>
+                    <td>{{item.createdDate}}</td>
+                    <td *ngIf="item.res=== 0">⭕</td>
+                    <td *ngIf="item.res!== 0">❌</td>
+                </tr>
+            </table>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedWordsColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedWordsColumns;"></tr>
+</table>
 <br>
 <h4>文</h4>
+<table mat-table [dataSource]="sentencesInfos" class="mat-elevation-z8">
+    <ng-container matColumnDef="sentence">
+        <th mat-header-cell *matHeaderCellDef>文</th>
+        <td mat-cell *matCellDef="let element">
+            <table>
+                <tr>
+                    <td>本文</td>
+                    <td>{{element.content}}</td>
+                </tr>
+                <tr>
+                    <td>意味（日本語）</td>
+                    <td>{{element.content1}}</td>
+                </tr>
+                <tr>
+                    <td>意味（中国語）</td>
+                    <td>{{element.content2}}</td>
+                </tr>
+                <tr>
+                    <td>回答内容</td>
+                    <td>
+                        <table>
+                            <tr *ngFor="let item of element.answers">
+                                <td>{{item.answer}}</td>
+                                <td>{{item.createdDate}}</td>
+                                <td *ngIf="item.res=== 0">⭕</td>
+                                <td *ngIf="item.res!== 0">❌</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedSentenceColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedSentenceColumns;"></tr>
+</table>
