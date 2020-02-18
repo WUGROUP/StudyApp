@@ -78,7 +78,7 @@ export class TestResDetailComponent implements OnInit {
             tempId = item.id;
             cInfo.id = item.id;
             cInfo.content = item.content;
-            if (cInfo.type === 3) {
+            if (item.type === 3) {
               cInfo.selectItems = JSON.parse(item.content1);
             }
             cInfo.content1 = item.content1;
@@ -94,6 +94,7 @@ export class TestResDetailComponent implements OnInit {
             testInfo.res = AppUtils.checkSentenceIsOK(cInfo.content, AppUtils.toTestList(testInfo.answer, false));
           } else {
             testInfo.res = AppUtils.checkSelectIsOK(JSON.parse(testInfo.answer));
+            testInfo.selectItems = JSON.parse(testInfo.answer);
           }
           cInfo.answers.push(testInfo);
         }
@@ -103,6 +104,15 @@ export class TestResDetailComponent implements OnInit {
       },
       (error) => {
         alert(error);
+      }
+    );
+  }
+
+  private managerSelect(testedSelectInfos: Array<ContentInfo>) {
+    testedSelectInfos.forEach(
+      (contentInfo: ContentInfo) => {
+
+
       }
     );
   }
